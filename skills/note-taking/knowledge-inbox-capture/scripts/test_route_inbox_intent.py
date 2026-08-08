@@ -77,11 +77,10 @@ class RouterTests(unittest.TestCase):
             builtins.open = original_open
         self.assertTrue(result["packet_permitted"])
 
-    def test_capture_prohibited_scopes_include_no_touch_subtrees(self):
+    def test_capture_prohibited_scopes_match_current_inbox_boundaries(self):
         expected = [
             "sources", "staging", "domains", "projects", "entities", "archive",
             "index", "log", "pipeline", "Inbox README", "frozen ZIP",
-            "gpt-message-import-abandon", "gpt-message-import-pending",
             "existing Inbox files", "audit artifacts", "extra workers",
         ]
         self.assertEqual(expected, self.route(

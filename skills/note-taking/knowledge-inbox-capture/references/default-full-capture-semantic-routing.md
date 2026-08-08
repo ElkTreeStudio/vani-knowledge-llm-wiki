@@ -18,7 +18,7 @@ Use this reference for every request that may convert user-provided material int
 - Before writing, run `scripts/validate_inbox_target.py` with the resolved knowledge root, exact target, and `--mode full` (or `--mode in-place-upgrade` for an authorized upgrade). A prose-only path check is not sufficient.
 - For long or structured sources, require in-memory / pipe acquisition, deterministic source rendering, ordered batches by the selected capture executor, and concrete stop conditions. The executor is selected by current runtime policy according to the capability contract in the parent skill; this reference does not name or rank model releases.
 - Do not create payload, manifest, renderer, or rollback files inside the knowledge tree.
-- Explicitly prohibit reads/writes to `gpt-message-import-abandon/`, `gpt-message-import-pending/`, the Frozen ZIP, unrelated existing files, packet, usage audit, and rollback.
+- Explicitly prohibit reads/writes to the Frozen ZIP, unrelated existing files, packet, usage audit, rollback, README, and any other exclusions declared by the current live Inbox contract.
 - The parent session verifies the artifact independently. A green worker self-report or usage record is not sufficient.
 
 ## Structured-source verification recipe

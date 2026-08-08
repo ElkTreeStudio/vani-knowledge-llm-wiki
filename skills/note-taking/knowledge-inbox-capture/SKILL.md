@@ -1,7 +1,7 @@
 ---
 name: knowledge-inbox-capture
 description: "Capture user-provided material into Inbox; full by default."
-version: 2.0.2
+version: 2.0.3
 ---
 
 # Knowledge Inbox Capture
@@ -59,19 +59,10 @@ storage contract. Do not infer the current format from old Inbox artifacts.
 When that README describes later source canonicalization, staging, promotion, or
 indexing, those later procedures do not expand the scope of an Inbox-only request.
 
-### Protected no-touch Inbox subtrees
-
-These exact Inbox subtrees are protected governance boundaries and must not be
-opened, enumerated, moved, renamed, indexed, searched as duplicate-preflight
-content, or used as capture targets:
-
-- `${KNOWLEDGE_ROOT}/inbox/gpt-message-import-abandon/`
-- `${KNOWLEDGE_ROOT}/inbox/gpt-message-import-pending/`
-
-The exact frozen artifact declared by the live Inbox contract is also no-touch.
+The exact frozen artifact declared by the live Inbox contract remains no-touch.
 The duplicate preflight may inspect only eligible direct Inbox Markdown files and
-must exclude README, the two protected subtrees, the frozen artifact, and any
-other live contract exclusions.
+must exclude README, the frozen artifact, and any other current live-contract
+exclusions.
 
 ## Semantic intent routing
 
@@ -165,8 +156,9 @@ Requirements:
    canonical path resolution.
 5. The packet may allow a non-recursive exact canonical-URL duplicate preflight
    over eligible direct Inbox Markdown only.
-6. The read/write boundary must exclude the protected no-touch subtrees, frozen
-   artifact, README, rollback files, usage files, and unrelated Inbox artifacts.
+6. The read/write boundary must exclude the frozen artifact, README, rollback
+   files, usage files, unrelated Inbox artifacts, and any other current
+   live-contract exclusions.
 7. The packet must not allow writes to `system/`, `sources/`, `staging/`,
    `domains/`, `projects/`, `entities/`, `archive/`, indexes/maps, or any path
    outside the single validated target.
@@ -260,7 +252,6 @@ as a full capture.
 - Do not turn a short request into a lightweight capture unless the restriction is
   explicit.
 - Do not replace a broken mechanical gate with prose-only instructions.
-- Do not read or enumerate protected no-touch Inbox subtrees.
 - Do not use a worker's self-report as the only completeness check.
 - Do not create temporary payload/audit files inside the knowledge root merely for
   convenience.

@@ -8,10 +8,6 @@ from pathlib import Path
 
 
 FILENAME_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
-NO_TOUCH_DIR_NAMES = {
-    "gpt-message-import-abandon",
-    "gpt-message-import-pending",
-}
 
 
 def validate_target(knowledge_root, target, mode):
@@ -37,8 +33,6 @@ def validate_target(knowledge_root, target, mode):
         raise ValueError("Inbox README is never a capture target")
     if not FILENAME_PATTERN.fullmatch(resolved_target.name):
         raise ValueError("target filename must match YYYY-MM-DD-short-slug.md")
-    if any(part in NO_TOUCH_DIR_NAMES for part in raw_target.parts):
-        raise ValueError("target may not enter a protected no-touch subtree")
 
     exists = resolved_target.exists()
     if mode in {"full", "lightweight"}:

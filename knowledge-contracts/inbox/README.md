@@ -24,12 +24,7 @@ status: new
 
 寫入前必須以 resolved 的 knowledge root 與 target 做機械驗證：target 必須是絕對路徑、直接位於 `inbox/`、符合 `YYYY-MM-DD-short-slug.md`、不是 `README.md`；一般 full/lightweight capture 不得覆寫既有檔案，只有明確的 in-place upgrade 可使用既有同一路徑。
 
-以下兩個目錄是固定 no-touch 治理邊界；任何 Inbox capture、duplicate preflight、scanner、index 或一般整理流程都不得開啟、列舉、搬移、重新命名或把其中內容當成 capture context：
-
-- `inbox/gpt-message-import-abandon/`
-- `inbox/gpt-message-import-pending/`
-
-下方 Frozen ZIP 規則同樣屬於 no-touch 邊界。
+下方 Frozen ZIP 規則屬於獨立的 no-touch 邊界。
 
 ## 後續分流程序（不屬於 Inbox 投遞）
 
