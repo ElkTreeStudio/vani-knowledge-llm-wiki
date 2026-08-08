@@ -64,6 +64,24 @@ class InboxTargetTests(unittest.TestCase):
                 validator.validate_target(root, target, "in-place-upgrade"),
             )
 
+    def test_in_place_upgrade_rejects_symlink_before_resolution(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            inbox = root / "inbox"
+            inbox.mkdir()
+            real_target = inbox / "2026-08-09-real.md"
+            alias_target = inbox / "2026-08-09-alias.md"
+            real_target.write_text("existing", encoding="utf-8")
+
+            try:
+                alias_target.symlink_to(real_target.name)
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest("symlink creation unavailable: {}".format(exc))
+
+            self.assertTrue(alias_target.is_symlink())
+            with self.assertRaises(ValueError):
+                validator.validate_target(root, alias_target, "in-place-upgrade")
+
     def test_target_must_be_absolute_and_readme_is_forbidden(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp).resolve()

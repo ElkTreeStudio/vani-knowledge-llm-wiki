@@ -22,6 +22,8 @@ def validate_target(knowledge_root, target, mode):
         raise ValueError("knowledge root must be an absolute path")
     if not raw_target.is_absolute():
         raise ValueError("target must be an absolute path")
+    if raw_target.is_symlink():
+        raise ValueError("target must not be a symlink")
 
     root = root.resolve(strict=False)
     inbox_root = (root / "inbox").resolve(strict=False)
@@ -45,7 +47,7 @@ def validate_target(knowledge_root, target, mode):
     elif mode == "in-place-upgrade":
         if not exists:
             raise ValueError("in-place-upgrade target must already exist")
-        if resolved_target.is_symlink() or not resolved_target.is_file():
+        if not resolved_target.is_file():
             raise ValueError("in-place-upgrade target must be an existing regular non-symlink file")
     else:
         raise ValueError("unsupported capture mode")

@@ -28,8 +28,8 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
-      "source_sha256": "a8d1aa4fe2d8035f3855184d3811a5e92e17e7ec4c5fb74a8b147eba0193d46f",
-      "public_sha256": "a8d1aa4fe2d8035f3855184d3811a5e92e17e7ec4c5fb74a8b147eba0193d46f",
+      "source_sha256": "9e8f1abf94c389769de2f781407d59881dc4030fdfb94cf790afd9914ebfbf74",
+      "public_sha256": "9e8f1abf94c389769de2f781407d59881dc4030fdfb94cf790afd9914ebfbf74",
       "publicized": true
     },
     {
@@ -84,15 +84,15 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
-      "source_sha256": "d0e27a80b3c41fe23678487af998c209c85f17fc0920c2b645c61aa37fee6347",
-      "public_sha256": "d0e27a80b3c41fe23678487af998c209c85f17fc0920c2b645c61aa37fee6347",
+      "source_sha256": "807eef94b611f56332d38973de881b1cd6121843333ab06454108dc7f1cbeef1",
+      "public_sha256": "807eef94b611f56332d38973de881b1cd6121843333ab06454108dc7f1cbeef1",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
-      "source_sha256": "89e2fcad469d6af0f01caf7f4ec8c9097b37ded1586d03e82480ee54ef363fec",
-      "public_sha256": "89e2fcad469d6af0f01caf7f4ec8c9097b37ded1586d03e82480ee54ef363fec",
+      "source_sha256": "72050dfa279200c2bf8e8af79198d2583b116ebc57eeceb37150db7da1e50f20",
+      "public_sha256": "72050dfa279200c2bf8e8af79198d2583b116ebc57eeceb37150db7da1e50f20",
       "publicized": false
     },
     {
@@ -112,8 +112,8 @@
     {
       "public_path": "skills/knowledge/governed-batch-knowledge-ingestion/references/independent-verifier-normalization.md",
       "source_locator": "skills/knowledge/governed-batch-knowledge-ingestion/references/independent-verifier-normalization.md",
-      "source_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff38f01117ed65c9e90",
-      "public_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff38f01117ed65c9e90",
+      "source_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff8f01117ed65c9e90",
+      "public_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff8f01117ed65c9e90",
       "publicized": false
     },
     {
