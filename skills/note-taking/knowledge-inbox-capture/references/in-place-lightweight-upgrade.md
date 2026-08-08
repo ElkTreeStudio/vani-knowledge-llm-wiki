@@ -1,6 +1,6 @@
 # In-place upgrade of a lightweight Inbox intake
 
-Use this reference when an existing lightweight material intake must become a complete Inbox capture under Roy's default contract or an explicit full-capture request. It prevents duplicate files and protects the prior intake if the full run stops.
+Use this reference when an existing lightweight material intake must become a complete Inbox capture under the default contract or an explicit full-capture request. It prevents duplicate files and protects the prior intake if the full run stops.
 
 ## Preconditions
 
@@ -20,20 +20,20 @@ If the current request explicitly asks to keep only a lightweight intake, do not
    ```
 
 3. Confirm the rollback path is absent, then move the existing target there. Confirm the target path is absent and the rollback file is present before creating the packet.
-4. Build the Stage A packet with the same final target as its only `write allowlist`. State that the upgrade is user-authorized, and explicitly exclude the rollback file from worker reads. Never use a `-full`, `-v2`, or alternate Inbox filename.
-5. Run the selected Stage A executor according to the active-main-brain / `GPT-5.6-luna max` rule. The same executor must acquire, render, translate, summarize, assemble, and write the artifact; no Terra fallback is permitted. The executor may stop if the source or output contract cannot be completed; do not weaken the packet to force a partial result.
-6. Validate all of the following from the parent session: usage model/provider, `completed`/`failed`, artifact existence, YAML, fixed sections, rendered block count, exact `## 原文` comparison, translation coverage, summary, and insights.
+4. Build the capture packet with the same final target as its only `write allowlist`. Use the resolved absolute Inbox path for machine validation. State that the upgrade is user-authorized, and explicitly exclude the rollback file from executor reads. Never use a `-full`, `-v2`, or alternate Inbox filename.
+5. Run the selected capture executor according to current runtime policy and the capability contract in `knowledge-inbox-capture`. The same selected executor must acquire, render, translate, summarize, assemble, and write the artifact; do not silently substitute another executor after a failure. The executor may stop if the source or output contract cannot be completed; do not weaken the packet to force a partial result.
+6. Validate all of the following from the parent session: delegated runtime identity/completion evidence when applicable, artifact existence, YAML, fixed sections, rendered block count, exact `## 原文` comparison, translation coverage, summary, and insights.
 7. On any stop, blocker, absent artifact, or failed validation, restore the rollback file to the original target path. Report the full upgrade as incomplete.
-8. Only after every validation passes, remove the rollback file and temporary packet. Keep the usage audit outside knowledge.
+8. Only after every validation passes, remove the rollback file and temporary packet. Keep delegated-worker usage audit outside knowledge.
 
 ## Failure pattern to treat as a blocker
 
-A structured X Article may be technically retrievable but still be too large for one selected Stage A executor to process and verify completely (for example, hundreds of blocks and tens of thousands of characters). A green usage report does not override this: `completed: true` and `failed: false` indicate runtime completion, not a valid capture. Preserve the original lightweight intake and report the blocker rather than writing a partial capture.
+A structured X Article may be technically retrievable but still be too large for the selected capture execution path to process and verify completely (for example, hundreds of blocks and tens of thousands of characters). A green usage report does not override this: `completed: true` and `failed: false` indicate runtime completion, not a valid capture. Preserve the original lightweight intake and report the blocker rather than writing a partial capture.
 
 ## Do not
 
 - Do not create a second file for the same material/source identity.
 - Do not delete the only copy before a rollback exists.
-- Do not let the selected Stage A executor read or modify the rollback, packet, usage report, README, Frozen ZIP, or protected subdirectories.
+- Do not let the selected capture executor read or modify the rollback, packet, usage report, README, Frozen ZIP, or protected subdirectories.
 - Do not delete the rollback merely because the selected executor exited successfully; validate the actual artifact first.
 - Do not call a lightweight intake a full capture until the original and every required translation block have been verified.
