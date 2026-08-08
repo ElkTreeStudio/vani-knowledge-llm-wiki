@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "policy": "Public projection of local Hermes skills and knowledge contracts; actual knowledge content is excluded.",
+  "substitutions": {
+    "local Hermes paths": "${HERMES_HOME}",
+    "knowledge root": "${KNOWLEDGE_ROOT}",
+    "audit root": "${HERMES_AUDIT_ROOT}",
+    "baseline manifest": "${KNOWLEDGE_BASELINE_MANIFEST}",
+    "frozen artifact": "<frozen-artifact>",
+    "GCP generation": "<verified-gcp-generation>"
+  },
+  "publicized_file_count": 6,
+  "publicized_files": [
+    "knowledge-contracts/README.md",
+    "knowledge-contracts/inbox/README.md",
+    "skills/note-taking/knowledge-inbox-capture/SKILL.md",
+    "skills/note-taking/knowledge-inbox-capture/references/in-place-lightweight-upgrade.md",
+    "skills/research/llm-wiki/SKILL.md",
+    "skills/research/llm-wiki/scripts/run-role-worker.py"
+  ],
+  "note": "Original machine-local source paths are intentionally not recorded in this public manifest. SOURCE-MANIFEST.json records logical public paths and content hashes only."
+}

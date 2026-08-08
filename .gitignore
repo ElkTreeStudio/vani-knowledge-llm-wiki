@@ -1,0 +1,33 @@
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local verification and runtime artifacts
+.env
+.env.*
+!.env.example
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Never stage local knowledge or audit data at repository root
+/knowledge/
+/inbox/
+/sources/
+/staging/
+/domains/
+/projects/
+/entities/
+/archive/
+/audit/
+/backups/
+*.zip
+*.tar
+*.tar.gz
