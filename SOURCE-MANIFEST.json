@@ -28,22 +28,22 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
-      "source_sha256": "9e8f1abf94c389769de2f781407d59881dc4030fdfb94cf790afd9914ebfbf74",
-      "public_sha256": "9e8f1abf94c389769de2f781407d59881dc4030fdfb94cf790afd9914ebfbf74",
+      "source_sha256": "d8e447ab571af0d39a107a2c5d0e59c762ca494011244ccdc94e065c9b5f2728",
+      "public_sha256": "d8e447ab571af0d39a107a2c5d0e59c762ca494011244ccdc94e065c9b5f2728",
       "publicized": true
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/references/default-full-capture-semantic-routing.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/references/default-full-capture-semantic-routing.md",
-      "source_sha256": "ff9f33caec410e30f4a7a8f838d846200a5f6aacaef610f1d26a48dbe7811ab8",
-      "public_sha256": "ff9f33caec410e30f4a7a8f838d846200a5f6aacaef610f1d26a48dbe7811ab8",
+      "source_sha256": "c91da6d633c6da9c3abb7d386d6174f174ad22163cc23d306b0fec56a762643a",
+      "public_sha256": "c91da6d633c6da9c3abb7d386d6174f174ad22163cc23d306b0fec56a762643a",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/references/in-place-lightweight-upgrade.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/references/in-place-lightweight-upgrade.md",
-      "source_sha256": "458adfbc291e242ea8285a939bac00ad8f72dc99d9849e93240fc3dfdca2bc08",
-      "public_sha256": "458adfbc291e242ea8285a939bac00ad8f72dc99d9849e93240fc3dfdca2bc08",
+      "source_sha256": "50f6b7e4ec936e6c17118936ea2c665139d6f9592502271512f6c3a7c25d5ea6",
+      "public_sha256": "50f6b7e4ec936e6c17118936ea2c665139d6f9592502271512f6c3a7c25d5ea6",
       "publicized": true
     },
     {
@@ -70,22 +70,22 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/route_inbox_intent.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/route_inbox_intent.py",
-      "source_sha256": "f959b3600f7b51159c7b1bced1cf52e0da3d4b8dc19c6ce7bdf0340968fe7bd5",
-      "public_sha256": "f959b3600f7b51159c7b1bced1cf52e0da3d4b8dc19c6ce7bdf0340968fe7bd5",
+      "source_sha256": "0dbfb4e34acfdfc9244a2777eb26558e342e6f023837a648a0a1de5658be334f",
+      "public_sha256": "0dbfb4e34acfdfc9244a2777eb26558e342e6f023837a648a0a1de5658be334f",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/test_route_inbox_intent.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/test_route_inbox_intent.py",
-      "source_sha256": "e7df635422eb1407e96cbd0ac43e28c6d62db26c9f3e8999a5e8418e2139771c",
-      "public_sha256": "e7df635422eb1407e96cbd0ac43e28c6d62db26c9f3e8999a5e8418e2139771c",
+      "source_sha256": "16df86f67b84dfa42cd68c62a53950fc6c86dcd1932702177e8a6b6b356b0b78",
+      "public_sha256": "16df86f67b84dfa42cd68c62a53950fc6c86dcd1932702177e8a6b6b356b0b78",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
-      "source_sha256": "807eef94b611f56332d38973de881b1cd6121843333ab06454108dc7f1cbeef1",
-      "public_sha256": "807eef94b611f56332d38973de881b1cd6121843333ab06454108dc7f1cbeef1",
+      "source_sha256": "31163c99c92b6256e4712ad2eeec0c59cf8560d4ceaf7962a7d4fd3c98c13eef",
+      "public_sha256": "31163c99c92b6256e4712ad2eeec0c59cf8560d4ceaf7962a7d4fd3c98c13eef",
       "publicized": false
     },
     {
@@ -112,8 +112,8 @@
     {
       "public_path": "skills/knowledge/governed-batch-knowledge-ingestion/references/independent-verifier-normalization.md",
       "source_locator": "skills/knowledge/governed-batch-knowledge-ingestion/references/independent-verifier-normalization.md",
-      "source_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff8f01117ed65c9e90",
-      "public_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff8f01117ed65c9e90",
+      "source_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff38f01117ed65c9e90",
+      "public_sha256": "8314846a38877a90911184cb5f21912cde5db91b3feb3ff38f01117ed65c9e90",
       "publicized": false
     },
     {
@@ -280,8 +280,8 @@
     {
       "public_path": "knowledge-contracts/inbox/README.md",
       "source_locator": "knowledge-contracts/inbox/README.md",
-      "source_sha256": "7d375c91acd00cb6ec24f333867e0c6240b65ad97e20dc8840695905bb4e9f71",
-      "public_sha256": "7d375c91acd00cb6ec24f333867e0c6240b65ad97e20dc8840695905bb4e9f71",
+      "source_sha256": "7d1f372d54eb9175ae06fd789c4cc31586e8284337de187dd9513ab7cf4220b3",
+      "public_sha256": "7d1f372d54eb9175ae06fd789c4cc31586e8284337de187dd9513ab7cf4220b3",
       "publicized": true
     },
     {
