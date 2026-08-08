@@ -11,19 +11,30 @@ FILENAME_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$
 
 
 def validate_target(knowledge_root, target, mode):
-    root = Path(knowledge_root).expanduser()
+    raw_root = Path(knowledge_root).expanduser()
     raw_target = Path(target).expanduser()
 
-    if not root.is_absolute():
+    if not raw_root.is_absolute():
         raise ValueError("knowledge root must be an absolute path")
     if not raw_target.is_absolute():
         raise ValueError("target must be an absolute path")
+
+    raw_inbox_root = raw_root / "inbox"
+    if raw_inbox_root.is_symlink():
+        raise ValueError("knowledge inbox root must not be a symlink")
     if raw_target.is_symlink():
         raise ValueError("target must not be a symlink")
 
-    root = root.resolve(strict=False)
-    inbox_root = (root / "inbox").resolve(strict=False)
+    resolved_root = raw_root.resolve(strict=False)
+    inbox_root = raw_inbox_root.resolve(strict=False)
     resolved_target = raw_target.resolve(strict=False)
+
+    try:
+        inbox_root.relative_to(resolved_root)
+    except ValueError as exc:
+        raise ValueError(
+            "resolved knowledge inbox must remain within the resolved knowledge root"
+        ) from exc
 
     if resolved_target.parent != inbox_root:
         raise ValueError("target must be directly under the resolved knowledge inbox")
