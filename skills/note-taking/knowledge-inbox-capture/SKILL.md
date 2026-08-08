@@ -1,7 +1,7 @@
 ---
 name: knowledge-inbox-capture
 description: "Capture user-provided material into Inbox; full by default."
-version: 2.0.0
+version: 2.0.1
 ---
 
 # Knowledge Inbox Capture
@@ -23,18 +23,20 @@ current request explicitly asks for a lightweight/metadata-only result.
 
 ### Full capture
 
-Preserve all obtainable source content or all user-supplied content. When the
-source is not already Taiwan Traditional Chinese, include a complete Taiwan
-Traditional Chinese translation. Add:
+Preserve all obtainable source content or all user-supplied content. A URL is not
+required when the material itself is supplied in the request, attachment, or
+conversation context. When the source is not already Taiwan Traditional Chinese,
+include a complete Taiwan Traditional Chinese translation. Add:
 
 - `Vani 摘要`
 - `Vani 心得與延伸見解`
 - the complete translated content when translation is required
 - the complete original/source content
 
-The exact frontmatter, filename, `status: new`, frozen-artifact exclusions, and
-other storage requirements come from the live
-`${KNOWLEDGE_ROOT}/inbox/README.md`.
+The exact frontmatter and section formatting come from the live
+`${KNOWLEDGE_ROOT}/inbox/README.md`. The normal filename is
+`YYYY-MM-DD-short-slug.md`, where the slug uses lowercase ASCII alphanumerics and
+hyphens.
 
 ### Lightweight capture
 
@@ -57,6 +59,20 @@ storage contract. Do not infer the current format from old Inbox artifacts.
 When that README describes later source canonicalization, staging, promotion, or
 indexing, those later procedures do not expand the scope of an Inbox-only request.
 
+### Protected no-touch Inbox subtrees
+
+These exact Inbox subtrees are protected governance boundaries and must not be
+opened, enumerated, moved, renamed, indexed, searched as duplicate-preflight
+content, or used as capture targets:
+
+- `${KNOWLEDGE_ROOT}/inbox/gpt-message-import-abandon/`
+- `${KNOWLEDGE_ROOT}/inbox/gpt-message-import-pending/`
+
+The exact frozen artifact declared by the live Inbox contract is also no-touch.
+The duplicate preflight may inspect only eligible direct Inbox Markdown files and
+must exclude README, the two protected subtrees, the frozen artifact, and any
+other live contract exclusions.
+
 ## Semantic intent routing
 
 Intent is decided by the active model from the complete request, attachments,
@@ -77,11 +93,13 @@ Supported capture categories are:
 - `inbox-only-lightweight` — explicit lightweight exception
 
 The validator also recognizes blocked, promotion, ambiguous, and non-Inbox
-categories. It validates the declared decision and boundary; it does not replace
-semantic intent understanding and must not fetch source content.
+categories. It validates the declared semantic decision and boundary; it does not
+replace semantic intent understanding and must not fetch source content.
 
 Only a validator result with `packet_permitted: true` authorizes an Inbox capture
-packet.
+packet. A non-URL full capture is valid when the model has semantically identified
+actual user-supplied material in the current request/context; ambiguous requests
+must be routed as ambiguous/blocked rather than forced through by the validator.
 
 ## Executor policy
 
@@ -104,16 +122,15 @@ according to current runtime policy.
 
 When delegated, use one selected executor for the semantic capture work on that
 material. Do not silently switch executors mid-capture merely to work around a
-failure. Runtime identity and completion evidence belong in external usage/audit,
-not in knowledge frontmatter unless the live Inbox contract explicitly requires
-it.
+failure. Runtime usage evidence must record the actual provider/model and
+completion state outside the knowledge root; identity is provenance, not
+promotion authority.
 
 ## Capture boundary
 
 Before source acquisition, establish one bounded capture packet. It must contain:
 
 ```text
-operation_mode: inbox-capture | inbox-lightweight
 intent_router_result: inbox-only-full | inbox-only-lightweight
 source: <exact source/material identity>
 read allowlist: <exact permitted reads>
@@ -121,26 +138,42 @@ write allowlist: <resolved absolute path under KNOWLEDGE_ROOT/inbox/*.md>
 stop conditions: <concrete blockers>
 ```
 
+The packet has one semantic mode field: `intent_router_result`. Do not add a
+second operation-mode label that can disagree with it.
+
+Before any write, mechanically validate the target:
+
+```text
+python3 ${HERMES_HOME}/skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py \
+  --knowledge-root <resolved absolute knowledge root> \
+  --target <resolved absolute target markdown> \
+  --mode full | lightweight | in-place-upgrade
+```
+
 Requirements:
 
-1. `write allowlist` resolves to exactly one Markdown path directly under the live
-   Inbox root. Use the resolved absolute path in machine validation; do not compare
-   a real path to a literal `${KNOWLEDGE_ROOT}` placeholder.
-2. The target must be new unless the current request authorizes an in-place
-   lightweight-to-full upgrade of the same source identity.
-3. The packet may allow an exact canonical-URL duplicate preflight over eligible
-   Inbox Markdown while respecting frozen/no-touch exclusions.
-4. The packet must not allow writes to README, `system/`, `sources/`, `staging/`,
-   `domains/`, `projects/`, `entities/`, `archive/`, indexes/maps, rollback files,
-   usage files, or unrelated Inbox artifacts.
-5. Packet, rollback, usage, and temporary audit artifacts stay outside the
+1. `write allowlist` appears exactly once and names exactly one Markdown path
+   directly under the resolved Inbox root.
+2. A new full/lightweight target must be absent. An `in-place-upgrade` target must
+   already exist and must be the explicitly authorized same-source lightweight
+   artifact.
+3. The target filename follows `YYYY-MM-DD-short-slug.md`; `README.md` is never a
+   capture target.
+4. The packet may allow a non-recursive exact canonical-URL duplicate preflight
+   over eligible direct Inbox Markdown only.
+5. The read/write boundary must exclude the protected no-touch subtrees, frozen
+   artifact, README, rollback files, usage files, and unrelated Inbox artifacts.
+6. The packet must not allow writes to `system/`, `sources/`, `staging/`,
+   `domains/`, `projects/`, `entities/`, `archive/`, indexes/maps, or any path
+   outside the single validated target.
+7. Packet, rollback, usage, and temporary audit artifacts stay outside the
    knowledge root unless a live contract explicitly says otherwise.
 
 ## Full-capture execution
 
 For a permitted `inbox-only-full` request:
 
-1. Acquire the complete allowed source.
+1. Acquire the complete allowed source or use the complete user-supplied material.
 2. Prefer deterministic structured rendering when available; preserve source
    order, headings, links, code, quotations, media references, and explicit
    placeholders for unsupported atomic content.
@@ -150,7 +183,7 @@ For a permitted `inbox-only-full` request:
 5. Generate `Vani 摘要` and `Vani 心得與延伸見解` without presenting those sections
    as source fact.
 6. Assemble exactly one final Inbox Markdown according to the live README.
-7. Write only the allowlisted target.
+7. Write only the mechanically validated allowlisted target.
 8. Read back and independently verify the artifact before reporting success.
 
 For long/structured material, use the bounded batching guidance in
@@ -183,6 +216,7 @@ capture, use `references/in-place-lightweight-upgrade.md`:
 
 - create rollback outside the knowledge root first;
 - preserve the same final Inbox path;
+- validate that path with `--mode in-place-upgrade`;
 - perform the full capture under the same single-target boundary;
 - restore rollback on any failure or failed verification;
 - remove rollback only after final independent verification passes.
@@ -191,7 +225,7 @@ capture, use `references/in-place-lightweight-upgrade.md`:
 
 Executor completion is not artifact acceptance. Verify at minimum:
 
-- the actual target path equals the allowlist;
+- the actual target path equals the one mechanically validated allowlist;
 - no other knowledge-root path changed;
 - YAML/frontmatter satisfies the live Inbox contract;
 - required fixed sections are present in the correct order;
@@ -201,9 +235,9 @@ Executor completion is not artifact acceptance. Verify at minimum:
 - structured-source block counts/order match deterministic rendering evidence
   where applicable;
 - beginning, middle, and final source ranges survive read-back;
-- runtime usage reports `completed: true` and `failed: false` for a delegated
-  executor, while remembering that green usage alone does not prove capture
-  correctness.
+- delegated runtime usage records a non-empty actual provider/model and reports
+  `completed: true` and `failed: false`;
+- green usage alone is never treated as proof of capture correctness.
 
 If verification fails, the capture is incomplete. Do not relabel a partial result
 as a full capture.
@@ -221,6 +255,8 @@ as a full capture.
 - Do not treat a model name as part of the Inbox contract.
 - Do not turn a short request into a lightweight capture unless the restriction is
   explicit.
+- Do not replace a broken mechanical gate with prose-only instructions.
+- Do not read or enumerate protected no-touch Inbox subtrees.
 - Do not use a worker's self-report as the only completeness check.
 - Do not create temporary payload/audit files inside the knowledge root merely for
   convenience.
