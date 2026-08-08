@@ -6,7 +6,7 @@ Use this reference when an existing lightweight material intake must become a co
 
 - The current request is a full Inbox material capture under the default contract, or explicitly authorizes an in-place upgrade/replacement. A generic request to convert provided material into Inbox is sufficient because full capture is the default; only an explicit lightweight request preserves the lightweight file.
 - The exact target file is `status: new`, identifies the same material/source (canonical URL when available, otherwise the stable material identity), and is recognizably a lightweight intake (minimum metadata plus date/source identification and a pending-full-capture note).
-- The target is not in `gpt-message-import-abandon/`, `gpt-message-import-pending/`, the Frozen ZIP, or another no-touch subtree, and the backup directory is outside `${KNOWLEDGE_ROOT}/`.
+- The target is not the Frozen ZIP, README, or another current live-contract exclusion, and the backup directory is outside `${KNOWLEDGE_ROOT}/`.
 
 If the current request explicitly asks to keep only a lightweight intake, do not upgrade. Otherwise, a generic request to convert/provide material to Inbox follows the default full-capture contract and is sufficient to proceed. If any other precondition fails, stop and ask; do not infer permission to touch a different file or broaden the allowlist.
 
@@ -35,6 +35,6 @@ A structured X Article may be technically retrievable but still be too large for
 
 - Do not create a second file for the same material/source identity.
 - Do not delete the only copy before a rollback exists.
-- Do not let the selected capture executor read or modify the rollback, packet, usage report, README, Frozen ZIP, `gpt-message-import-abandon/`, `gpt-message-import-pending/`, or other protected subdirectories.
+- Do not let the selected capture executor read or modify the rollback, packet, usage report, README, Frozen ZIP, or any other current live-contract exclusion.
 - Do not delete the rollback merely because the selected executor exited successfully; validate the actual artifact first.
 - Do not call a lightweight intake a full capture until the original and every required translation block have been verified.
