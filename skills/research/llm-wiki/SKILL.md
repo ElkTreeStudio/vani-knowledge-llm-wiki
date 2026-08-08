@@ -1,7 +1,7 @@
 ---
 name: llm-wiki
 description: "Model-agnostic governed knowledge workflow and wiki query."
-version: 4.0.0
+version: 4.0.1
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -18,10 +18,14 @@ Maintain a persistent, compounding Markdown knowledge base without allowing an
 unreviewed source, an LLM response, or an implementation convenience to silently
 become formal knowledge.
 
-The canonical root is `${KNOWLEDGE_ROOT}` when configured, otherwise
-`~/knowledge`. The knowledge corpus itself is not required to use Git. Use the
-configured backup/checkpoint mechanism before governed writes to existing formal
-knowledge.
+Resolve the canonical root in this order:
+
+1. `${KNOWLEDGE_ROOT}` when configured;
+2. legacy `${WIKI_PATH}` for backward compatibility;
+3. `~/knowledge` as the final fallback.
+
+The knowledge corpus itself is not required to use Git. Use the configured
+backup/checkpoint mechanism before governed writes to existing formal knowledge.
 
 ## Canonical knowledge layers
 
@@ -68,9 +72,9 @@ not to this skill.
 - The current main session may execute a role directly when it can satisfy the
   role contract. Do not dispatch another worker merely to satisfy a model-name
   convention.
-- When a worker is delegated, record its actual provider/model and completion
-  evidence outside the knowledge root. Identity is provenance, not promotion
-  authority.
+- When a worker is delegated, external usage evidence MUST record a non-empty
+  actual provider/model plus completion state even when runtime-default routing is
+  used. Identity is provenance, not promotion authority.
 - If the runtime cannot provide an executor that can honor the required read/write
   boundary, stop that operation. Do not silently weaken the role contract.
 - This skill MUST NOT change the active main-session model as a side effect of a
@@ -84,25 +88,30 @@ The bundled dispatcher supports governance roles rather than named models:
 python3 ${HERMES_HOME}/skills/research/llm-wiki/scripts/run-role-worker.py \
   --role planner \
   --prompt-file /absolute/path/to/task-packet.txt \
-  --workdir "${KNOWLEDGE_ROOT:-$HOME/knowledge}"
+  --workdir "<resolved knowledge root>"
 ```
 
 By default the dispatcher uses the model/provider already selected by the runtime.
 A caller may pass `--model` and `--provider` together when those values were
-resolved by runtime policy outside this skill. The dispatcher verifies runtime
-completion and, when an explicit identity is supplied, verifies that exact
-identity in the usage report.
+resolved by runtime policy outside this skill. The dispatcher always requires
+usage evidence to contain the actual model/provider and completion state; when an
+explicit identity is supplied, it additionally requires an exact identity match.
 
 Inbox capture follows `knowledge-inbox-capture`; it is not forced through this
 worker dispatcher. Policy-gate decisions stay in the current main session.
+Verifier work may run directly in the current main session or as a separately
+authorized read-only worker; no dedicated verifier dispatcher role is required by
+this skill.
 
 The dispatcher writes usage evidence under
-`~/.hermes/worker-runs/llm-wiki/` by default, never inside the knowledge root.
+`${HERMES_HOME}/worker-runs/llm-wiki/` when `HERMES_HOME` is configured, otherwise
+under `~/.hermes/worker-runs/llm-wiki/`, never inside the knowledge root.
 
 ## Inbox capture
 
 When the user provides new material for retention, follow the live
-`knowledge-inbox-capture` skill and `${KNOWLEDGE_ROOT}/inbox/README.md`.
+`knowledge-inbox-capture` skill and `${KNOWLEDGE_ROOT}/inbox/README.md` (or the
+equivalent resolved root when using the legacy `WIKI_PATH` fallback).
 
 The capture operation may create or upgrade only the one allowlisted Markdown
 artifact under `inbox/`. It must not create canonical sources, classify into
@@ -110,9 +119,9 @@ formal domains/projects/entities, update indexes/maps, or run promotion as an
 implicit continuation of capture.
 
 Full capture is the default unless the user explicitly requests lightweight or
-metadata-only retention. The capture skill owns the exact artifact shape and
-verification requirements; this umbrella skill does not duplicate that field
-list.
+metadata-only retention. The capture skill owns the exact artifact shape,
+mechanical target validation, protected no-touch subtrees, and verification
+requirements; this umbrella skill does not duplicate those details.
 
 ## Promotion planning
 
@@ -174,6 +183,15 @@ conflicts, confidence below `0.85`, structural rewrites, expired/stale evidence,
 or any operation outside the approved plan/allowlist. Do not split or reinterpret
 a change to evade this gate.
 
+A delegated formal-write packet must encode the effective decision as exactly:
+
+```text
+policy gate: approved
+```
+
+Any other value, including `pending`, `denied`, or an absent/duplicate field,
+blocks formal-write dispatch.
+
 ## Formal write
 
 Only after a valid promotion plan and policy gate may a formal maintainer write
@@ -181,8 +199,9 @@ formal knowledge.
 
 1. Revalidate plan expiry, input hash, snapshot/version, snapshot hash, and every
    applicable pre-write hash immediately before writing.
-2. Treat the plan allowlist as the complete write boundary. Perform only the
-   listed operation on each listed path.
+2. Treat the plan allowlist as the complete write boundary. The worker packet must
+   contain exactly one `write allowlist` field; perform only the approved operation
+   set inside that bounded scope.
 3. Take the configured backup/checkpoint of affected existing formal content
    before writing and record its identifier outside the knowledge content.
 4. Preserve provenance/evidence in formal content according to the live schema.
@@ -250,6 +269,8 @@ For edits to this skill:
    contract; use semantic operation names instead.
 5. Search for legacy direct-ingest instructions, direct unplanned formal writes,
    or model-switch commands.
+6. Run the dispatcher tests and confirm duplicate allowlists, non-approved policy
+   gates, and missing runtime identity are rejected.
 
 ## Pitfalls
 
@@ -257,6 +278,7 @@ For edits to this skill:
 - Never let a planner write or a maintainer self-approve its own expansion.
 - Never treat an expired plan, stale hash, or stale snapshot as advisory.
 - Never make a particular model release part of the knowledge-governance ABI.
+- Never replace a mechanical write gate with prose-only policy.
 - Never use Git as a requirement for the private knowledge corpus.
 - Never present translation, user commentary, or extended inference as source
   fact.

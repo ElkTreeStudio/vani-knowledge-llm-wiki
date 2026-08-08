@@ -1,49 +1,56 @@
 {
   "manifest_version": 1,
   "project": "vani-knowledge-llm-wiki",
-  "projection_policy": "publicized local runtime projection; actual knowledge content excluded",
-  "source_entry_count": 40,
+  "projection_policy": "publicized local runtime projection plus reviewed repository-native governance updates; actual knowledge content excluded",
+  "source_entry_count": 43,
   "entries": [
     {
       "public_path": "skills/research/llm-wiki/SKILL.md",
       "source_locator": "skills/research/llm-wiki/SKILL.md",
-      "source_sha256": "72eaa9c6972187d0fd885e19bc2d1cfce8a29d21f37a824cfb6b5ab3ae9d01b6",
-      "public_sha256": "c47ba57c00f6a78a6e8bc85efdfc8fcd2e6df3a215cb934c39c7e3e95351109f",
+      "source_sha256": "f7193ecef7a8676600ec8079791af3fc80ee0a3136fe5095278ff0e453410e54",
+      "public_sha256": "f7193ecef7a8676600ec8079791af3fc80ee0a3136fe5095278ff0e453410e54",
       "publicized": true
     },
     {
       "public_path": "skills/research/llm-wiki/scripts/run-role-worker.py",
       "source_locator": "skills/research/llm-wiki/scripts/run-role-worker.py",
-      "source_sha256": "d1c16f9d298edc1d5974742489aeb3925d952add9cad6e5b3b211798fbca3f28",
-      "public_sha256": "872113398a53a6b1dc4e83ebdcd5afaa60bac30663acff8bd3c6d5da94ffdc0a",
+      "source_sha256": "b772e28571f216832cf730e8d728dbd8536623f6f9e683c7f73ab9e9c35bb6c0",
+      "public_sha256": "b772e28571f216832cf730e8d728dbd8536623f6f9e683c7f73ab9e9c35bb6c0",
       "publicized": true
+    },
+    {
+      "public_path": "skills/research/llm-wiki/scripts/test_run_role_worker.py",
+      "source_locator": "skills/research/llm-wiki/scripts/test_run_role_worker.py",
+      "source_sha256": "9d3f598fb3695d7baf86bd590c43021c519e1243671abdeed630a91ef51f7cd0",
+      "public_sha256": "9d3f598fb3695d7baf86bd590c43021c519e1243671abdeed630a91ef51f7cd0",
+      "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
-      "source_sha256": "2591fdbe59ac2b2a3fd8d9251d88d2cfab5606e2fe06384f68e90d5eefbfb2c3",
-      "public_sha256": "501a38d768b1ae8fbd677440b4dfe25f9beec50e220ea025e3e936c0e2510878",
+      "source_sha256": "a8d1aa4fe2d8035f3855184d3811a5e92e17e7ec4c5fb74a8b147eba0193d46f",
+      "public_sha256": "a8d1aa4fe2d8035f3855184d3811a5e92e17e7ec4c5fb74a8b147eba0193d46f",
       "publicized": true
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/references/default-full-capture-semantic-routing.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/references/default-full-capture-semantic-routing.md",
-      "source_sha256": "28fbd68715d4bcb30cc4eb8a9bcf1d9af0b8ddb4d8165717aef37937fba4b5d6",
-      "public_sha256": "28fbd68715d4bcb30cc4eb8a9bcf1d9af0b8ddb4d8165717aef37937fba4b5d6",
+      "source_sha256": "ff9f33caec410e30f4a7a8f838d846200a5f6aacaef610f1d26a48dbe7811ab8",
+      "public_sha256": "ff9f33caec410e30f4a7a8f838d846200a5f6aacaef610f1d26a48dbe7811ab8",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/references/in-place-lightweight-upgrade.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/references/in-place-lightweight-upgrade.md",
-      "source_sha256": "a612839ee684aabf071d0d0b48e4e3462d5004e97808157d7dce191e2162fb4f",
-      "public_sha256": "675495657408f35c220b54da244a6c3b429f90c07628d84edceda59ed1d5a51f",
+      "source_sha256": "458adfbc291e242ea8285a939bac00ad8f72dc99d9849e93240fc3dfdca2bc08",
+      "public_sha256": "458adfbc291e242ea8285a939bac00ad8f72dc99d9849e93240fc3dfdca2bc08",
       "publicized": true
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/references/long-article-batch-translation.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/references/long-article-batch-translation.md",
-      "source_sha256": "13bb4562e0e906fb2a46156c555c7d61b0d942ad5def514fcbb897a661aed120",
-      "public_sha256": "13bb4562e0e906fb2a46156c555c7d61b0d942ad5def514fcbb897a661aed120",
+      "source_sha256": "fc002c232cc46dfbf1081a13360287144cebda1fcaeafe177a6150353aae473f",
+      "public_sha256": "fc002c232cc46dfbf1081a13360287144cebda1fcaeafe177a6150353aae473f",
       "publicized": false
     },
     {
@@ -63,15 +70,29 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/route_inbox_intent.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/route_inbox_intent.py",
-      "source_sha256": "6fb540068fa54bf8f5cc0752504d53bbc97aeda0551312a7943e83bb2478da52",
-      "public_sha256": "6fb540068fa54bf8f5cc0752504d53bbc97aeda0551312a7943e83bb2478da52",
+      "source_sha256": "f959b3600f7b51159c7b1bced1cf52e0da3d4b8dc19c6ce7bdf0340968fe7bd5",
+      "public_sha256": "f959b3600f7b51159c7b1bced1cf52e0da3d4b8dc19c6ce7bdf0340968fe7bd5",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/test_route_inbox_intent.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/test_route_inbox_intent.py",
-      "source_sha256": "bd276c56d840c5a403f28829812e7bd33de2e46ba31a03b1e50678b37cb51d0f",
-      "public_sha256": "bd276c56d840c5a403f28829812e7bd33de2e46ba31a03b1e50678b37cb51d0f",
+      "source_sha256": "e7df635422eb1407e96cbd0ac43e28c6d62db26c9f3e8999a5e8418e2139771c",
+      "public_sha256": "e7df635422eb1407e96cbd0ac43e28c6d62db26c9f3e8999a5e8418e2139771c",
+      "publicized": false
+    },
+    {
+      "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
+      "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
+      "source_sha256": "d0e27a80b3c41fe23678487af998c209c85f17fc0920c2b645c61aa37fee6347",
+      "public_sha256": "d0e27a80b3c41fe23678487af998c209c85f17fc0920c2b645c61aa37fee6347",
+      "publicized": false
+    },
+    {
+      "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
+      "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
+      "source_sha256": "89e2fcad469d6af0f01caf7f4ec8c9097b37ded1586d03e82480ee54ef363fec",
+      "public_sha256": "89e2fcad469d6af0f01caf7f4ec8c9097b37ded1586d03e82480ee54ef363fec",
       "publicized": false
     },
     {
@@ -259,8 +280,8 @@
     {
       "public_path": "knowledge-contracts/inbox/README.md",
       "source_locator": "knowledge-contracts/inbox/README.md",
-      "source_sha256": "c86eef3efc1ce19d4d71ec77cc40970c616164d5b44d2677ae10572e119bac3f",
-      "public_sha256": "1107e5051b6f88b6af431617b4977e000ffa3961372b2fea09e0f6f2a7ab2551",
+      "source_sha256": "7d375c91acd00cb6ec24f333867e0c6240b65ad97e20dc8840695905bb4e9f71",
+      "public_sha256": "7d375c91acd00cb6ec24f333867e0c6240b65ad97e20dc8840695905bb4e9f71",
       "publicized": true
     },
     {
