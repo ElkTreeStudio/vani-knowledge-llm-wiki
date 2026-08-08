@@ -28,8 +28,8 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/SKILL.md",
-      "source_sha256": "d8e447ab571af0d39a107a2c5d0e59c762ca494011244ccdc94e065c9b5f2728",
-      "public_sha256": "d8e447ab571af0d39a107a2c5d0e59c762ca494011244ccdc94e065c9b5f2728",
+      "source_sha256": "07f4067ac616f6f3f031fd5b646f3007c61653759a1ef5b103d2d5894907dbf6",
+      "public_sha256": "07f4067ac616f6f3f031fd5b646f3007c61653759a1ef5b103d2d5894907dbf6",
       "publicized": true
     },
     {
@@ -84,15 +84,15 @@
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py",
-      "source_sha256": "31163c99c92b6256e4712ad2eeec0c59cf8560d4ceaf7962a7d4fd3c98c13eef",
-      "public_sha256": "31163c99c92b6256e4712ad2eeec0c59cf8560d4ceaf7962a7d4fd3c98c13eef",
+      "source_sha256": "75e4d4e4deafdfe6e427b49747d1af62f1e7512608ca2995ea948c29a45712be",
+      "public_sha256": "75e4d4e4deafdfe6e427b49747d1af62f1e7512608ca2995ea948c29a45712be",
       "publicized": false
     },
     {
       "public_path": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
       "source_locator": "skills/note-taking/knowledge-inbox-capture/scripts/test_validate_inbox_target.py",
-      "source_sha256": "72050dfa279200c2bf8e8af79198d2583b116ebc57eeceb37150db7da1e50f20",
-      "public_sha256": "72050dfa279200c2bf8e8af79198d2583b116ebc57eeceb37150db7da1e50f20",
+      "source_sha256": "515481977feed6d97d519ad56a71ec743f67b000d010ad422b958c453c206799",
+      "public_sha256": "515481977feed6d97d519ad56a71ec743f67b000d010ad422b958c453c206799",
       "publicized": false
     },
     {
@@ -280,8 +280,8 @@
     {
       "public_path": "knowledge-contracts/inbox/README.md",
       "source_locator": "knowledge-contracts/inbox/README.md",
-      "source_sha256": "7d1f372d54eb9175ae06fd789c4cc31586e8284337de187dd9513ab7cf4220b3",
-      "public_sha256": "7d1f372d54eb9175ae06fd789c4cc31586e8284337de187dd9513ab7cf4220b3",
+      "source_sha256": "16c31a4e539176b7b26a39751ad9ed0e5b7f49386c9c7fc81ab4e20977cf979e",
+      "public_sha256": "16c31a4e539176b7b26a39751ad9ed0e5b7f49386c9c7fc81ab4e20977cf979e",
       "publicized": true
     },
     {
