@@ -9,7 +9,6 @@ import sys
 INBOX_CAPTURE_PROHIBITED_SCOPES = [
     "sources", "staging", "domains", "projects", "entities", "archive",
     "index", "log", "pipeline", "Inbox README", "frozen ZIP",
-    "gpt-message-import-abandon", "gpt-message-import-pending",
     "existing Inbox files", "audit artifacts", "extra workers",
 ]
 PERMITTED_MODEL_INTENTS = {
