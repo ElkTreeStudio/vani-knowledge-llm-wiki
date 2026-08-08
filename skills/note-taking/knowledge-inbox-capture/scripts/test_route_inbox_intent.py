@@ -25,8 +25,8 @@ class RouterTests(unittest.TestCase):
             "這篇留著：https://example.com/article",
         ):
             with self.subTest(request=request):
-                result = self.route(request, "stage-a-inbox-only")
-                self.assertEqual("stage-a-inbox-only", result["category"])
+                result = self.route(request, "inbox-only-full")
+                self.assertEqual("inbox-only-full", result["category"])
                 self.assertTrue(result["packet_permitted"])
 
     def test_model_can_decline_inbox_intent_without_regex_override(self):
@@ -34,14 +34,14 @@ class RouterTests(unittest.TestCase):
         self.assertEqual("not-inbox-request", result["category"])
         self.assertFalse(result["packet_permitted"])
 
-    def test_url_stage_a_requires_a_url(self):
-        result = self.route("請收錄這個", "stage-a-inbox-only")
-        self.assertEqual("stage-a-blocked-insufficient-source", result["category"])
+    def test_full_capture_requires_a_url(self):
+        result = self.route("請收錄這個", "inbox-only-full")
+        self.assertEqual("inbox-blocked-insufficient-source", result["category"])
         self.assertFalse(result["packet_permitted"])
 
     def test_lightweight_requires_payload(self):
-        result = self.route("", "stage-a-inbox-only-lightweight")
-        self.assertEqual("stage-a-blocked-insufficient-source", result["category"])
+        result = self.route("", "inbox-only-lightweight")
+        self.assertEqual("inbox-blocked-insufficient-source", result["category"])
 
     def test_formal_promotion_is_not_packet_permitted(self):
         result = self.route("請正式入庫", "formal-promotion")
@@ -50,31 +50,44 @@ class RouterTests(unittest.TestCase):
         self.assertEqual("formal-flow-required", result["write_allowlist_shape"])
 
     def test_serialized_output_is_byte_identical(self):
-        first = router.canonical_json(self.route("保留 https://example.com/a", "stage-a-inbox-only"))
-        second = router.canonical_json(self.route("保留 https://example.com/a", "stage-a-inbox-only"))
+        first = router.canonical_json(self.route("保留 https://example.com/a", "inbox-only-full"))
+        second = router.canonical_json(self.route("保留 https://example.com/a", "inbox-only-full"))
         self.assertEqual(first, second)
-        self.assertEqual(first, json.dumps(json.loads(first), ensure_ascii=False,
-                                           sort_keys=True, separators=(",", ":")))
+        self.assertEqual(
+            first,
+            json.dumps(
+                json.loads(first),
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
+        )
 
     def test_validator_needs_no_filesystem_reads_or_writes(self):
         def forbidden_open(*args, **kwargs):
             raise AssertionError("validator must not open files")
+
         original_open = builtins.open
         builtins.open = forbidden_open
         try:
-            result = self.route("存下這篇 https://example.com/a", "stage-a-inbox-only")
+            result = self.route("存下這篇 https://example.com/a", "inbox-only-full")
         finally:
             builtins.open = original_open
         self.assertTrue(result["packet_permitted"])
 
-    def test_stage_a_prohibited_scopes_are_exact(self):
+    def test_capture_prohibited_scopes_are_exact(self):
         expected = [
             "sources", "staging", "domains", "projects", "entities", "archive",
             "index", "log", "pipeline", "Inbox README", "frozen ZIP",
             "existing Inbox files", "audit artifacts", "extra workers",
         ]
-        self.assertEqual(expected, self.route(
-            "收錄inbox https://example.com/a", "stage-a-inbox-only")["prohibited_scopes"])
+        self.assertEqual(
+            expected,
+            self.route(
+                "收錄inbox https://example.com/a",
+                "inbox-only-full",
+            )["prohibited_scopes"],
+        )
 
 
 if __name__ == "__main__":
