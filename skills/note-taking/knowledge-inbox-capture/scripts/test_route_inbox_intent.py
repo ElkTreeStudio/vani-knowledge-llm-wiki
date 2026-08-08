@@ -29,13 +29,23 @@ class RouterTests(unittest.TestCase):
                 self.assertEqual("inbox-only-full", result["category"])
                 self.assertTrue(result["packet_permitted"])
 
-    def test_model_can_decline_inbox_intent_without_regex_override(self):
+    def test_full_capture_can_use_non_url_user_supplied_material(self):
+        request = "請把下面這段完整收進 Inbox：\n這是一段直接貼上的研究筆記，沒有網址，但它本身就是要保存的來源材料。"
+        result = self.route(request, "inbox-only-full")
+        self.assertEqual("inbox-only-full", result["category"])
+        self.assertTrue(result["packet_permitted"])
+
+    def test_model_can_decline_or_mark_ambiguous_without_regex_override(self):
         result = self.route("讀得到嗎？https://example.com/article", "not-inbox-request")
         self.assertEqual("not-inbox-request", result["category"])
         self.assertFalse(result["packet_permitted"])
 
-    def test_full_capture_requires_a_url(self):
-        result = self.route("請收錄這個", "inbox-only-full")
+        ambiguous = self.route("請收錄這個", "ambiguous-conflicting-intent")
+        self.assertEqual("ambiguous-conflicting-intent", ambiguous["category"])
+        self.assertFalse(ambiguous["packet_permitted"])
+
+    def test_empty_request_context_blocks_capture(self):
+        result = self.route("", "inbox-only-full")
         self.assertEqual("inbox-blocked-insufficient-source", result["category"])
         self.assertFalse(result["packet_permitted"])
 
@@ -53,20 +63,12 @@ class RouterTests(unittest.TestCase):
         first = router.canonical_json(self.route("保留 https://example.com/a", "inbox-only-full"))
         second = router.canonical_json(self.route("保留 https://example.com/a", "inbox-only-full"))
         self.assertEqual(first, second)
-        self.assertEqual(
-            first,
-            json.dumps(
-                json.loads(first),
-                ensure_ascii=False,
-                sort_keys=True,
-                separators=(",", ":"),
-            ),
-        )
+        self.assertEqual(first, json.dumps(json.loads(first), ensure_ascii=False,
+                                           sort_keys=True, separators=(",", ":")))
 
     def test_validator_needs_no_filesystem_reads_or_writes(self):
         def forbidden_open(*args, **kwargs):
             raise AssertionError("validator must not open files")
-
         original_open = builtins.open
         builtins.open = forbidden_open
         try:
@@ -75,19 +77,15 @@ class RouterTests(unittest.TestCase):
             builtins.open = original_open
         self.assertTrue(result["packet_permitted"])
 
-    def test_capture_prohibited_scopes_are_exact(self):
+    def test_capture_prohibited_scopes_include_no_touch_subtrees(self):
         expected = [
             "sources", "staging", "domains", "projects", "entities", "archive",
             "index", "log", "pipeline", "Inbox README", "frozen ZIP",
+            "gpt-message-import-abandon", "gpt-message-import-pending",
             "existing Inbox files", "audit artifacts", "extra workers",
         ]
-        self.assertEqual(
-            expected,
-            self.route(
-                "收錄inbox https://example.com/a",
-                "inbox-only-full",
-            )["prohibited_scopes"],
-        )
+        self.assertEqual(expected, self.route(
+            "收錄inbox https://example.com/a", "inbox-only-full")["prohibited_scopes"])
 
 
 if __name__ == "__main__":
