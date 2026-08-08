@@ -6,7 +6,7 @@ Use this reference for every request that may convert user-provided material int
 
 1. Decide from the complete request context whether the user wants the supplied material converted, preserved, or captured in Inbox. This is a semantic decision, not a keyword, phrase, regex, or spelling decision.
 2. If the semantic intent is material-to-Inbox capture, choose `inbox-only-full` by default.
-3. The default full capture preserves all obtainable source content / all supplied content, translates it into natural Taiwan Traditional Chinese when the source is not already Taiwan Traditional Chinese, and adds `Vani 摘要` plus `Vani 心得與延伸見解`.
+3. The default full capture preserves all obtainable source content / all supplied content, including directly pasted or attached material that has no URL; translates it into natural Taiwan Traditional Chinese when the source is not already Taiwan Traditional Chinese; and adds `Vani 摘要` plus `Vani 心得與延伸見解`.
 4. `inbox-only-lightweight` is valid only when the current request explicitly asks for a lightweight intake, metadata-only preservation, no source fetch, no translation, no summary, or an equivalent restriction. Do not infer lightweight from a short message, a bare link, or an ordinary Inbox request.
 5. A request to capture the same material again is not a new file. If the existing artifact is complete, stop. If it is lightweight and the current semantic intent is the default full capture, use the rollback-backed in-place upgrade flow.
 
@@ -15,9 +15,10 @@ Use this reference for every request that may convert user-provided material int
 - State the semantic intent and `intent_router_result` explicitly.
 - Keep the write allowlist to the one final Inbox Markdown path.
 - Use a resolved absolute target path for machine validation. `${KNOWLEDGE_ROOT}` is documentation notation, not a literal parent path to compare against a real filesystem path.
+- Before writing, run `scripts/validate_inbox_target.py` with the resolved knowledge root, exact target, and `--mode full` (or `--mode in-place-upgrade` for an authorized upgrade). A prose-only path check is not sufficient.
 - For long or structured sources, require in-memory / pipe acquisition, deterministic source rendering, ordered batches by the selected capture executor, and concrete stop conditions. The executor is selected by current runtime policy according to the capability contract in the parent skill; this reference does not name or rank model releases.
 - Do not create payload, manifest, renderer, or rollback files inside the knowledge tree.
-- Explicitly prohibit reads/writes to protected Inbox subtrees, Frozen ZIP, unrelated existing files, packet, usage audit, and rollback.
+- Explicitly prohibit reads/writes to `gpt-message-import-abandon/`, `gpt-message-import-pending/`, the Frozen ZIP, unrelated existing files, packet, usage audit, and rollback.
 - The parent session verifies the artifact independently. A green worker self-report or usage record is not sufficient.
 
 ## Structured-source verification recipe
@@ -35,6 +36,7 @@ For X Article or similar block sources:
 ## Failure patterns captured from the routing correction
 
 - A short request or bare URL is not evidence of lightweight intent.
+- A URL is not required when the user supplied the material directly.
 - The phrase used by the user is not itself the classifier; the active model must understand the requested operation from the whole message.
 - A parser that treats every Markdown `##` as a fixed section boundary will truncate article headings and falsely report missing coverage; use the known fixed section headings.
 - Raw source-text probes can falsely fail on deterministic Markdown wrappers; normalize wrappers only, then re-check the lexical source content.
