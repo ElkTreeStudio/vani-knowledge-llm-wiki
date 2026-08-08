@@ -1,7 +1,7 @@
 ---
 name: knowledge-inbox-capture
 description: "Capture user-provided material into Inbox; full by default."
-version: 2.0.3
+version: 2.0.4
 ---
 
 # Knowledge Inbox Capture
@@ -147,22 +147,24 @@ Requirements:
 
 1. `write allowlist` appears exactly once and names exactly one Markdown path
    directly under the resolved Inbox root.
-2. A new full/lightweight target must be absent. An `in-place-upgrade` target must
+2. The Inbox root itself must not be a symlink, and its resolved path must remain
+   inside the resolved knowledge root.
+3. A new full/lightweight target must be absent. An `in-place-upgrade` target must
    already exist and must be the explicitly authorized same-source lightweight
    artifact.
-3. The target filename follows `YYYY-MM-DD-short-slug.md`; `README.md` is never a
+4. The target filename follows `YYYY-MM-DD-short-slug.md`; `README.md` is never a
    capture target.
-4. The target itself must not be a symlink; symlink rejection is performed before
+5. The target itself must not be a symlink; symlink rejection is performed before
    canonical path resolution.
-5. The packet may allow a non-recursive exact canonical-URL duplicate preflight
+6. The packet may allow a non-recursive exact canonical-URL duplicate preflight
    over eligible direct Inbox Markdown only.
-6. The read/write boundary must exclude the frozen artifact, README, rollback
+7. The read/write boundary must exclude the frozen artifact, README, rollback
    files, usage files, unrelated Inbox artifacts, and any other current
    live-contract exclusions.
-7. The packet must not allow writes to `system/`, `sources/`, `staging/`,
+8. The packet must not allow writes to `system/`, `sources/`, `staging/`,
    `domains/`, `projects/`, `entities/`, `archive/`, indexes/maps, or any path
    outside the single validated target.
-8. Packet, rollback, usage, and temporary audit artifacts stay outside the
+9. Packet, rollback, usage, and temporary audit artifacts stay outside the
    knowledge root unless a live contract explicitly says otherwise.
 
 ## Full-capture execution

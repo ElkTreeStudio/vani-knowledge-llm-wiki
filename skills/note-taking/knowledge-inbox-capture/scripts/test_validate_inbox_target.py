@@ -82,6 +82,25 @@ class InboxTargetTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validator.validate_target(root, alias_target, "in-place-upgrade")
 
+    def test_inbox_root_symlink_escape_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp).resolve()
+            root = base / "knowledge"
+            outside = base / "outside"
+            root.mkdir()
+            outside.mkdir()
+
+            inbox = root / "inbox"
+            try:
+                inbox.symlink_to(outside, target_is_directory=True)
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest("symlink creation unavailable: {}".format(exc))
+
+            self.assertTrue(inbox.is_symlink())
+            target = inbox / "2026-08-09-escape.md"
+            with self.assertRaises(ValueError):
+                validator.validate_target(root, target, "full")
+
     def test_target_must_be_absolute_and_readme_is_forbidden(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp).resolve()
