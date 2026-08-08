@@ -1,7 +1,7 @@
 ---
 name: knowledge-inbox-capture
 description: "Capture user-provided material into Inbox; full by default."
-version: 2.0.1
+version: 2.0.2
 ---
 
 # Knowledge Inbox Capture
@@ -141,13 +141,15 @@ stop conditions: <concrete blockers>
 The packet has one semantic mode field: `intent_router_result`. Do not add a
 second operation-mode label that can disagree with it.
 
-Before any write, mechanically validate the target:
+Before any write, mechanically validate the target. The example below validates
+a normal full-capture target; valid `--mode` values are `full`, `lightweight`, and
+`in-place-upgrade`.
 
-```text
+```bash
 python3 ${HERMES_HOME}/skills/note-taking/knowledge-inbox-capture/scripts/validate_inbox_target.py \
-  --knowledge-root <resolved absolute knowledge root> \
-  --target <resolved absolute target markdown> \
-  --mode full | lightweight | in-place-upgrade
+  --knowledge-root /absolute/path/to/knowledge \
+  --target /absolute/path/to/knowledge/inbox/2026-08-09-example.md \
+  --mode full
 ```
 
 Requirements:
@@ -159,14 +161,16 @@ Requirements:
    artifact.
 3. The target filename follows `YYYY-MM-DD-short-slug.md`; `README.md` is never a
    capture target.
-4. The packet may allow a non-recursive exact canonical-URL duplicate preflight
+4. The target itself must not be a symlink; symlink rejection is performed before
+   canonical path resolution.
+5. The packet may allow a non-recursive exact canonical-URL duplicate preflight
    over eligible direct Inbox Markdown only.
-5. The read/write boundary must exclude the protected no-touch subtrees, frozen
+6. The read/write boundary must exclude the protected no-touch subtrees, frozen
    artifact, README, rollback files, usage files, and unrelated Inbox artifacts.
-6. The packet must not allow writes to `system/`, `sources/`, `staging/`,
+7. The packet must not allow writes to `system/`, `sources/`, `staging/`,
    `domains/`, `projects/`, `entities/`, `archive/`, indexes/maps, or any path
    outside the single validated target.
-7. Packet, rollback, usage, and temporary audit artifacts stay outside the
+8. Packet, rollback, usage, and temporary audit artifacts stay outside the
    knowledge root unless a live contract explicitly says otherwise.
 
 ## Full-capture execution
