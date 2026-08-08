@@ -3,13 +3,13 @@
 
 import argparse
 import json
-import re
 import sys
 
 
 INBOX_CAPTURE_PROHIBITED_SCOPES = [
     "sources", "staging", "domains", "projects", "entities", "archive",
     "index", "log", "pipeline", "Inbox README", "frozen ZIP",
+    "gpt-message-import-abandon", "gpt-message-import-pending",
     "existing Inbox files", "audit artifacts", "extra workers",
 ]
 PERMITTED_MODEL_INTENTS = {
@@ -21,7 +21,6 @@ PERMITTED_MODEL_INTENTS = {
     "not-inbox-request",
 }
 CAPTURE_INTENTS = {"inbox-only-full", "inbox-only-lightweight"}
-URL_PATTERN = re.compile(r"https?://[^\s]+", re.IGNORECASE)
 
 
 def normalize_text(text):
@@ -42,20 +41,19 @@ def _result(category, permitted, allowlist_shape, reason_code):
 
 
 def validate_model_intent(text, model_intent):
-    """Validate an LLM's semantic decision; this is deliberately not a regex classifier."""
+    """Validate an LLM's semantic decision; deliberately do not reclassify it."""
     if model_intent not in PERMITTED_MODEL_INTENTS:
         raise ValueError("unsupported model intent")
 
     normalized = normalize_text(text)
-    has_url = bool(URL_PATTERN.search(normalized))
 
     if model_intent == "inbox-only-full":
-        if not has_url:
+        if not normalized:
             return _result(
                 "inbox-blocked-insufficient-source",
                 False,
                 "none",
-                "model-approved-full-capture-without-url",
+                "model-approved-full-capture-without-request-context",
             )
         return _result(
             "inbox-only-full",
