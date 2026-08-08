@@ -22,7 +22,7 @@ status: new
 
 本節適用於單純的 Inbox 投遞。Capture 只能建立一份 `status: new` 的直接子層 Markdown，或在另案明確授權時原位升級同一來源的既有 lightweight artifact。
 
-寫入前必須以 resolved 的 knowledge root 與 target 做機械驗證：target 必須是絕對路徑、直接位於 `inbox/`、符合 `YYYY-MM-DD-short-slug.md`、不是 `README.md`；一般 full/lightweight capture 不得覆寫既有檔案，只有明確的 in-place upgrade 可使用既有同一路徑。
+寫入前必須以 resolved 的 knowledge root、Inbox root 與 target 做機械驗證：`${KNOWLEDGE_ROOT}/inbox/` 本身不得是 symlink，resolved Inbox 必須仍位於 resolved knowledge root 之下；target 必須是絕對路徑、直接位於 `inbox/`、符合 `YYYY-MM-DD-short-slug.md`、不是 `README.md`；一般 full/lightweight capture 不得覆寫既有檔案，只有明確的 in-place upgrade 可使用既有同一路徑。
 
 下方 Frozen ZIP 規則屬於獨立的 no-touch 邊界。
 
